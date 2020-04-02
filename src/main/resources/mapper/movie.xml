@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.movie.movie.repository.MovieRepository">
+<!-- place뿌리기 -->
+<select id="findPlace" resultType="com.movie.movie.model.Place">
+select * from place where type=#{type}
+</select>
+
+<!-- screen 뿌리기 -->
+<resultMap id="resultScreen" type="com.movie.movie.model.Screen">
+<id property="id" column="id"/>
+<result property="movieId" column="movieId"/>
+<result property="placeId" column="placeId"/>
+<result property="theaterId" column="theaterId"/>
+<result property="startDate" column="startDate"/>
+<result property="endDate" column="endDate"/>
+<result property="dateTime" column="dateTime"/>
+<collection property="movies" resultMap="resultMovie"/>
+<collection property="places" resultMap="resultPlace"/>
+</resultMap>
+
+<resultMap id="resultPlace" type="com.movie.movie.model.Place">
+<id property="id" column="id"/>
+<result property="pName" column="pName"/>
+<result property="type" column="type"/>
+</resultMap> 
+
+<resultMap id="resultMovie" type="com.movie.movie.model.Movie">
+<id property="id" column="id"/>
+<result property="title" column="title"/>
+<result property="image" column="image"/>
+<result property="runningTime" column="runningTime"/>
+<result property="genre" column="genre"/>
+</resultMap> 
+
+<select id = "findInfo" resultMap="resultScreen">
+select * from screen s
+inner join movie m on s.movieId=m.id
+inner join place p on s.placeId=p.id
+where s.placeId=#{placeId} AND s.movieId=#{movieId};
+</select>
+
+<select id ="findMovie" resultMap="resultScreen">
+select distinct s.placeId,m.title,s.movieId from screen s join movie m
+on s.movieId=m.id
+where placeId=#{placeId}
+</select>
+
+<!-- 상영시간 출력하기-->
+<select id="findTime" resultType="com.movie.movie.model.Screen">
+select*from screen where placeId=#{placeId} And movieId=#{movieId}
+</select>
+
+<!-- 예약좌석 -->
+<select id="findColSeat" resultType="com.movie.movie.model.MovieSeat">
+select distinct col_seat from movie_seat
+</select>
+
+<select id="findRowSeat" resultType="com.movie.movie.model.MovieSeat">
+select distinct row_seat from movie_seat
+</select>
+
+<!-- 회원가입 -->
+<insert id="save">
+insert into user(name,userId,password)
+value(#{name},#{userId},#{password})
+</insert>
+
+<!-- 로그인 -->
+<select id="login" resultType="com.movie.movie.model.User">
+select*from user where userId=#{userId} and password=#{password}
+</select>
+<!-- 좌석아이디... -->
+<select id="findSeatId" resultType="com.movie.movie.model.MovieSeat">
+select * from movie_seat where col_seat=#{col_seat} AND row_seat=#{row_seat}
+</select>
+
+<insert id="saveBill">
+insert into bill(userId,movieId,placeId,theaterId,seatId,startDate,endDate,price,status,createDate,updateDate)
+value(#{userId},#{movieId},#{placeId},#{theaterId},#{seatId},#{startDate},#{endDate},#{price},#{status},now(),now())
+</insert>
+
+<!-- bill select 쿼리 -->
+<resultMap id="resultBill"  type="com.movie.movie.model.Bill">
+<id property="id" column="id"/>
+<result property="userId" column="userId"/>
+<result property="movieId" column="movieId"/>
+<result property="placeId" column="placeId"/>
+<result property="theaterId" column="theaterId"/>
+<result property="seatId" column="seatId"/>
+<result property="startDate" column="startDate"/>
+<result property="endDate" column="endDate"/>
+<result property="price" column="price"/>
+<result property="status" column="status"/>
+<result property="createDate" column="createDate"/>
+<result property="updateDate" column="updateDate"/>
+<collection property="user" resultMap="resultUser"/>
+<collection property="movie" resultMap="resultMovie"/>
+<collection property="place" resultMap="resultPlace"/>
+<collection property="seat" resultMap="resultSeat"/>
+<collection property="theater" resultMap="resultTheater"/>
+</resultMap>
+
+<resultMap id="resultUser" type="com.movie.movie.model.User">
+<id property="id" column="id"/>
+<result property="name" column="name"/>
+<result property="password" column="password"/>
+<result property="createTime" column="createTime"/>
+</resultMap> 
+
+<resultMap id="resultSeat" type="com.movie.movie.model.MovieSeat">
+<id property="id" column="id"/>
+<result property="row_seat" column="row_seat"/>
+<result property="col_seat" column="col_seat"/>
+<result property="createDate" column="createDate"/>
+</resultMap>
+
+<resultMap id="resultTheater" type="com.movie.movie.model.Theater">
+<id property="id" column="id"/>
+<result property="tName" column="tName"/>
+<result property="seatId" column="seatId"/>
+</resultMap>
+<select id="findAllBill" resultMap="resultBill">
+select*from bill b
+inner join user u on b.userId=u.id
+inner join movie m on b.movieId=m.id
+inner join place p on b.placeId=p.id
+inner join theater t on b.theaterId =t.id
+inner join movie_seat s on b.seatId=s.id
+where b.userId=#{userId} and b.movieId=#{movieId} and b.placeId=#{placeId} and b.theaterId=#{theaterId} and b.seatId=#{seatId} and b.price=#{price}
+</select>
+
+
+</mapper>

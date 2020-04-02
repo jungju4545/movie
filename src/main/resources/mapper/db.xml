@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.movie.movie.repository.DBRepository">
+
+<insert id="save">
+insert into movie_seat(row_seat,col_seat,createDate)
+value(#{row_seat},#{col_seat},now());
+</insert>
+<insert id ="saveMovie">
+insert into movie (title,image,runningTime,genre)
+value(#{title},#{image},#{runningTime},#{genre})
+</insert>
+<insert id="saveTheater">
+insert into theater(tName,seatId)
+value(#{tName},#{seatId})
+</insert>
+
+<select id="findAll" resultType="com.movie.movie.model.Movie" >
+select * from movie
+</select>
+
+</mapper>

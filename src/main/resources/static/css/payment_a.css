@@ -1,0 +1,73 @@
+.line1{
+    font-family: OpenSans-Regular;
+    font-size: 30px;
+    color: #ffffff;
+    background-color: black;
+    width: 400px;
+    height: 60px;
+    text-align: center;
+    border-left: 1px solid #000000;
+    border-right: 1px solid #000000;
+}
+.line2{
+    width: 400px;
+    height: 300px;
+    text-align: center;
+    border-left: 1px solid #000000;
+    border-right: 1px solid #000000;
+    
+}
+.line3{
+    width: 400px;
+    height: 180px;
+    text-align: center;
+    padding-left: 60px;
+    border-left: 1px solid #000000;
+    
+}
+.line4{
+    width: 400px;
+    height: 60px;
+    color: white;
+    border-left: 1px solid #000000;
+    border-bottom: 1px solid #a0a0a0;
+    text-align: center;
+    
+}
+.text1{
+    font-size: 20px;
+}
+.solidButton a:link,
+	 .solidButton a:visited {
+        background-color: #f44336;
+        color: white;
+        padding: 14px 25px;
+        text-align: center; 
+        text-decoration: none;
+        display: inline-block;
+        margin: 5px;
+        border-radius: 10%;
+    }
+
+    .solidButton a:hover,
+	 .solidButton a:active {
+        background-color: red;
+    }
+
+    .solidButton2 a:link,
+	 .solidButton2 a:visited {
+        background-color: red;
+        color: white3;
+        padding: 14px 25px;
+        text-align: center; 
+        text-decoration: none;
+        display: inline-block;
+        margin: 5px;
+        border-radius: 10%;
+    }
+
+    .solidButton2 a:hover,
+	 .solidButton2 a:active {
+        background-color: red;
+    }
+    
